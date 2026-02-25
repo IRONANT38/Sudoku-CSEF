@@ -316,7 +316,7 @@ def draw_board():
                             fg=BLACK_BG,
                             readonlybackground=GREY_BG
                         )
-                        cell.bind("<Button-1>", on_focus_in) #left mouse
+                        cell.bind("<Button-1>", on_focus_in) 
                     else:
                         cell.config(font=board_font, fg=BLACK_BG)
                         cell.bind("<FocusIn>", on_focus_in)
