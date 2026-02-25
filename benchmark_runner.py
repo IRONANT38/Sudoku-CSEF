@@ -80,7 +80,6 @@ def run_benchmark_to_csv(
                 "skipped_reason": ""
             }
 
-            # Validate input
             if not isinstance(puzzle_string, str) or not isinstance(solution_string, str):
                 row["skipped_reason"] = "puzzle_or_solution_not_string"
                 writer.writerow(row)
@@ -98,9 +97,6 @@ def run_benchmark_to_csv(
 
             row["given_clues"] = count_given_clues(puzzle_string)
 
-            # =========================
-            # Backtracking
-            # =========================
             backtracking_board = file_to_grid(puzzle_string)
             backtracking_stats = {"placements": 0, "backtracks": 0}
 
@@ -119,10 +115,6 @@ def run_benchmark_to_csv(
             row["backtracking_time_ms"] = backtracking_elapsed_ms
             row["backtracking_placements"] = backtracking_stats["placements"]
             row["backtracking_backtracks"] = backtracking_stats["backtracks"]
-
-            # =========================
-            # Norvig
-            # =========================
             norvig_stats = make_stats()
 
             start_time = time.perf_counter()
@@ -136,10 +128,6 @@ def run_benchmark_to_csv(
             row["norvig_eliminations"] = norvig_stats["eliminations"]
             row["norvig_search_nodes"] = norvig_stats["search_nodes"]
             row["norvig_contradictions"] = norvig_stats["contradictions"]
-
-            # =========================
-            # TOTAL TIME (new column)
-            # =========================
             row["total_time_ms"] = backtracking_elapsed_ms + norvig_elapsed_ms
 
             writer.writerow(row)

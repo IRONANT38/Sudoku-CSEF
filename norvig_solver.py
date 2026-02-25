@@ -8,10 +8,6 @@ This file is intentionally separate from main.py because it is not
 student-authored code. It is used for comparison and benchmarking.
 """
 
-# -------------------------------------------------------------------------
-# Build Sudoku Structures
-# -------------------------------------------------------------------------
-
 def build_sudoku_structures():
     row_labels = "ABCDEFGHI"
     column_labels = "123456789"
@@ -23,21 +19,18 @@ def build_sudoku_structures():
 
     unit_list = []
 
-    # Row units
     for row_label in row_labels:
         unit = []
         for column_label in column_labels:
             unit.append(row_label + column_label)
         unit_list.append(unit)
 
-    # Column units
     for column_label in column_labels:
         unit = []
         for row_label in row_labels:
             unit.append(row_label + column_label)
         unit_list.append(unit)
 
-    # Box units
     row_groups = ["ABC", "DEF", "GHI"]
     column_groups = ["123", "456", "789"]
     for row_group in row_groups:
@@ -69,11 +62,6 @@ def build_sudoku_structures():
 
 
 SQUARES, UNIT_LIST, UNITS, PEERS = build_sudoku_structures()
-
-# -------------------------------------------------------------------------
-# Stats Helper
-# -------------------------------------------------------------------------
-
 def make_stats():
     return {
         "assignments": 0,
@@ -81,10 +69,6 @@ def make_stats():
         "search_nodes": 0,
         "contradictions": 0
     }
-
-# -------------------------------------------------------------------------
-# Core Constraint Propagation
-# -------------------------------------------------------------------------
 
 def parse_grid_to_candidates(puzzle_string, stats):
     candidates = {}
@@ -154,10 +138,6 @@ def eliminate(candidates, square, digit_to_remove, stats):
 
     return candidates
 
-# -------------------------------------------------------------------------
-# Depth-First Search
-# -------------------------------------------------------------------------
-
 def search(candidates, stats):
     if candidates is None:
         return None
@@ -191,10 +171,6 @@ def search(candidates, stats):
             return result
 
     return None
-
-# -------------------------------------------------------------------------
-# Public API
-# -------------------------------------------------------------------------
 
 def solve_norvig(puzzle_string, stats=None):
     """

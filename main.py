@@ -5,7 +5,6 @@ from norvig_solver import solve_norvig, make_stats
 from benchmark_runner import run_benchmark_to_csv
 from classify_boards import classify_boards
 
-# Helper Function
 easy = (
     "004300209005009001070060043006002087190007400050083000600000105003508690042910300",
     "864371259325849761971265843436192587198657432257483916689734125713528694542916378"
@@ -24,7 +23,6 @@ def file_to_grid(data):
             current_row.append(int(data[index]))
         grid.append(current_row)
     return grid
-# Helper Function
 def grid_to_string(board):
     """
     Turns a 9x9 grid back into an 81-character string.
@@ -34,7 +32,6 @@ def grid_to_string(board):
         for column_index in range(9):
             output += str(board[row_index][column_index])
     return output
-# Helper Function
 def print_board(board):
     """
     Prints the board with nice 3x3 separators.
@@ -55,7 +52,6 @@ def print_board(board):
                 row_text_parts.append(str(value))
 
         print(" ".join(row_text_parts))
-# Helper Function
 def get_row_values(board, row_index):
     """
     Returns a list of the 9 values in a row.
@@ -65,7 +61,6 @@ def get_row_values(board, row_index):
         values.append(board[row_index][column_index])
     return values
 
-# Helper Function
 def get_column_values(board, column_index):
     """
     Returns a list of the 9 values in a column.
@@ -74,7 +69,6 @@ def get_column_values(board, column_index):
     for row_index in range(9):
         values.append(board[row_index][column_index])
     return values
-# Helper Function
 def get_box_values(board, row_index, column_index):
     """
     Returns a list of the 9 values in the 3x3 box that contains (row_index, column_index).
@@ -88,13 +82,7 @@ def get_box_values(board, row_index, column_index):
             values.append(board[r][c])
 
     return values
-# Helper Function
 def count_conflicts(board):
-    """
-    Counts how many filled cells break Sudoku rules.
-    This is NOT a solver. It's just a checker to help you see what's wrong.
-    Lower is better. Zero means no rule-breaking duplicates.
-    """
     conflicts = 0
 
     for row_index in range(9):
@@ -102,8 +90,6 @@ def count_conflicts(board):
             value = board[row_index][column_index]
             if value == 0:
                 continue
-
-            # Check duplicates in row (excluding this cell)
             row_has_duplicate = False
             for other_column_index in range(9):
                 if other_column_index == column_index:
@@ -116,7 +102,6 @@ def count_conflicts(board):
                 conflicts += 1
                 continue
 
-            # Check duplicates in column (excluding this cell)
             column_has_duplicate = False
             for other_row_index in range(9):
                 if other_row_index == row_index:
@@ -129,7 +114,6 @@ def count_conflicts(board):
                 conflicts += 1
                 continue
 
-            # Check duplicates in box (excluding this cell)
             box_start_row = (row_index // 3) * 3
             box_start_column = (column_index // 3) * 3
 
@@ -166,8 +150,6 @@ def is_valid_placement(board, row_index, column_index, candidate_number):
         return False
     return True
     
-# Algorithmic Functions
-### Add a comment describing what this function takes as an argumen, what it does, and what it outputs or returns if anything!
 def shuffle_solver(board):
     for col in range(9):
         numbers_to_place = [1,2,3,4,5,6,7,8,9]
@@ -184,7 +166,6 @@ def shuffle_solver(board):
                 board[row][col] = numbers_to_place[fill_index]
                 fill_index += 1
                 
-### Add a comment describing what this function takes as an argumen, what it does, and what it outputs or returns if anything!
 def shuffle_solver_with_constraints(board):
     for row in range(9):
         numbers_to_place = list(range(1, 10))
@@ -209,7 +190,6 @@ def shuffle_solver_with_constraints(board):
             if not placed:
                 board[row][col] = 0         
 
-### Add a comment describing what this function takes as an argumen, what it does, and what it outputs or returns if anything!
 def recursive_backtracking_solver(board, debug=False, depth=0, stats=None):
     if stats is None:
         stats = {"placements": 0, "backtracks": 0}
@@ -217,22 +197,22 @@ def recursive_backtracking_solver(board, debug=False, depth=0, stats=None):
     if empty_cell == None:
         return True 
     row_index, column_index = empty_cell
-    #   - Try numbers 1..9
+
     candidate_numbers = [1,2,3,4,5,6,7,8,9]
     for candidate_number in candidate_numbers:
         if is_valid_placement(board, row_index, column_index, candidate_number):
             board[row_index][column_index] = candidate_number
             stats["placements"]+= 1
-            # print each placement and its depth
+
             if debug:
                     indent = "  " * depth
                     print(indent + "Place", candidate_number, "at", (row_index, column_index))
-            # now that a number was place call function recursively and move to the next empty_cell
+            
             if recursive_backtracking_solver(board, debug=debug, depth=depth+1, stats=stats):
                 return True
             board[row_index][column_index] = 0
             stats["backtracks"] +=1
-            # print each backtrack and its depth
+
             if debug:
                 indent = "  " * depth
                 print(indent + "Backtrack at", (row_index, column_index))
@@ -240,7 +220,7 @@ def recursive_backtracking_solver(board, debug=False, depth=0, stats=None):
         
 
 
-# Single run test of all algorithms 
+ 
 puzzle_string, solution_string = easy
 board = file_to_grid(puzzle_string)
 puzzle = file_to_grid(puzzle_string)
