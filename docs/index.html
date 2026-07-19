@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#173a28">
+    <meta name="description" content="Play Mr. Sudoku.">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Mr. Sudoku">
+    <title>Mr. Sudoku</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-PLLZCT9L');</script>
+    <!-- End Google Tag Manager -->
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PLLZCT9L"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="app-shell">
+        <header class="app-header">
+            <a class="brand" href="./" aria-label="Mr. Sudoku home">
+                <span class="brand-mark" aria-hidden="true">
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                    <span></span><span></span><span></span>
+                </span>
+                <strong>Mr. Sudoku</strong>
+            </a>
+
+            <div class="header-actions">
+                <div class="timer" aria-label="Elapsed time">
+                    <span>Time</span>
+                    <strong id="timer">00:00</strong>
+                </div>
+                <button id="install-button" class="button subtle" type="button">Install</button>
+            </div>
+        </header>
+
+        <main>
+            <section id="difficulty-panel" class="difficulty-panel" aria-labelledby="difficulty-heading" hidden>
+                <div class="difficulty-heading">
+                    <div>
+                        <p class="eyebrow">Difficulty</p>
+                        <h1 id="difficulty-heading">Choose a level</h1>
+                    </div>
+                    <button id="close-difficulty-button" class="button subtle compact" type="button">Close</button>
+                </div>
+                <div id="difficulty-buttons" class="difficulty-buttons" aria-label="Difficulty levels"></div>
+            </section>
+
+            <section class="game-layout" aria-label="Sudoku game">
+                <div class="board-panel">
+                    <div class="board-toolbar">
+                        <div>
+                            <span class="toolbar-label">Difficulty</span>
+                            <strong id="current-level">Level 1</strong>
+                        </div>
+                        <button id="change-difficulty-button" class="button subtle compact" type="button" aria-expanded="false" aria-controls="difficulty-panel">Change level</button>
+                    </div>
+
+                    <div class="board-wrap">
+                        <div id="loading-overlay" class="loading-overlay" aria-live="polite">
+                            <span class="spinner" aria-hidden="true"></span>
+                            <strong>Loading puzzle</strong>
+                        </div>
+                        <div id="sudoku-board" class="sudoku-board" role="grid" aria-label="Sudoku board"></div>
+                    </div>
+
+                    <p id="status" class="status" role="status" aria-live="polite">Choose a cell, then enter a number.</p>
+                </div>
+
+                <aside class="control-panel" aria-label="Game controls">
+                    <div class="number-pad" aria-label="Number pad">
+                        <button type="button" data-number="1">1</button>
+                        <button type="button" data-number="2">2</button>
+                        <button type="button" data-number="3">3</button>
+                        <button type="button" data-number="4">4</button>
+                        <button type="button" data-number="5">5</button>
+                        <button type="button" data-number="6">6</button>
+                        <button type="button" data-number="7">7</button>
+                        <button type="button" data-number="8">8</button>
+                        <button type="button" data-number="9">9</button>
+                    </div>
+
+                    <button id="erase-button" class="button full" type="button">Erase</button>
+
+                    <div class="tool-grid">
+                        <button id="notes-button" class="tool-button" type="button" aria-pressed="false">
+                            <span>Notes</span>
+                            <small id="notes-state">Off</small>
+                        </button>
+                        <button id="check-button" class="tool-button" type="button">
+                            <span>Check</span>
+                            <small>Current entries</small>
+                        </button>
+                        <button id="hint-button" class="tool-button" type="button">
+                            <span>Hint</span>
+                            <small>Fill one cell</small>
+                        </button>
+                        <button id="reset-button" class="tool-button" type="button">
+                            <span>Reset</span>
+                            <small>This puzzle</small>
+                        </button>
+                    </div>
+
+                    <button id="new-game-button" class="button primary full" type="button">New puzzle</button>
+
+                    <details class="keyboard-help">
+                        <summary>Keyboard controls</summary>
+                        <p>Use 1–9 to enter numbers, arrow keys to move, N for notes, Backspace to erase, C to check, and H for a hint.</p>
+                    </details>
+                </aside>
+            </section>
+        </main>
+    </div>
+
+    <dialog id="install-dialog" class="modal">
+        <form method="dialog">
+            <div class="modal-heading">
+                <p class="eyebrow">Install Mr. Sudoku</p>
+                <h2>Add the game to this device</h2>
+            </div>
+            <p id="install-instructions"></p>
+            <button class="button primary full" value="close">Got it</button>
+        </form>
+    </dialog>
+
+    <dialog id="win-dialog" class="modal win-modal">
+        <div class="win-symbol" aria-hidden="true">9×9</div>
+        <p class="eyebrow">Puzzle complete</p>
+        <h2>You solved it!</h2>
+        <p id="win-summary"></p>
+        <div class="modal-actions">
+            <button id="win-close-button" class="button subtle" type="button">View board</button>
+            <button id="win-next-button" class="button primary" type="button">Next puzzle</button>
+        </div>
+    </dialog>
+
+    <script type="module" src="sudoku.js"></script>
+</body>
+</html>
